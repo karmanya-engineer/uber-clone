@@ -8,19 +8,32 @@ export default function AuthCallback() {
 
   useEffect(() => {
     if (error) {
+      console.error('OAuth error:', error);
       router.push(`/login?error=${error}`);
       return;
     }
 
     if (token) {
-      setAuthToken(token);
-      
-      // Redirect based on role
-      if (role === 'driver') {
-        router.push('/driver');
-      } else {
-        router.push('/');
+      try {
+        setAuthToken(token);
+        
+        // Redirect based on role
+        setTimeout(() => {
+          if (role === 'driver') {
+            router.push('/driver');
+          } else {
+            router.push('/');
+          }
+        }, 500);
+      } catch (err) {
+        console.error('Error setting auth token:', err);
+        router.push('/login?error=token_error');
       }
+    } else if (!error) {
+      // No token and no error - might be loading
+      setTimeout(() => {
+        router.push('/login?error=no_token');
+      }, 2000);
     }
   }, [token, role, error, router]);
 

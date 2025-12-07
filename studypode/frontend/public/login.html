@@ -196,6 +196,7 @@
         <!-- Google Login Button -->
         <a
             href="http://localhost:5000/api/auth/google"
+            id="google-login-btn"
             class="w-full flex items-center justify-center gap-3 bg-white border-2 border-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-50 transition"
         >
             <svg class="w-5 h-5" viewBox="0 0 24 24">
@@ -231,7 +232,16 @@
 
     <script>
         const API_URL = 'http://localhost:5000/api';
+        const BACKEND_URL = 'http://localhost:5000';
         let isLoginMode = true;
+
+        // Update Google login button URL
+        document.addEventListener('DOMContentLoaded', () => {
+            const googleBtn = document.getElementById('google-login-btn');
+            if (googleBtn) {
+                googleBtn.href = `${BACKEND_URL}/api/auth/google`;
+            }
+        });
 
         // Check URL parameters for role
         const urlParams = new URLSearchParams(window.location.search);

@@ -9,13 +9,15 @@ export default function AuthCallback() {
   useEffect(() => {
     if (error) {
       console.error('OAuth error:', error);
-      router.push(`/login?error=${error}`);
+      const errorMessage = router.query.message || error;
+      router.push(`/login?error=${error}&message=${encodeURIComponent(errorMessage)}`);
       return;
     }
 
     if (token) {
       try {
         setAuthToken(token);
+        console.log('Auth token set successfully');
         
         // Redirect based on role
         setTimeout(() => {

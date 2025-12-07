@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { auth as authApi } from '../lib/api';
 import { setAuthToken } from '../lib/auth';
@@ -14,6 +14,23 @@ export default function Login() {
     role: 'user',
   });
   const [error, setError] = useState('');
+
+  // Handle error messages from query parameters (e.g., from Google OAuth)
+  useEffect(() => {
+    const { error: queryError, message } = router.query;
+    if (queryError) {
+      const errorMessages = {
+        auth_failed: 'Google authentication failed. Please try again.',
+        user_not_found: 'User not found. Please try signing up first.',
+        server_error: message || 'Server error occurred. Please try again.',
+        token_error: 'Authentication token error. Please try again.',
+        no_token: 'No authentication token received. Please try again.',
+      };
+      setError(errorMessages[queryError] || 'An error occurred. Please try again.');
+      // Clean up URL
+      router.replace('/login', undefined, { shallow: true });
+    }
+  }, [router.query]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

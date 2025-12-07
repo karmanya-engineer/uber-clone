@@ -11,40 +11,61 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
+        // Validate profile data
+        if (!profile || !profile.id) {
+          return done(new Error('Invalid Google profile data'), null);
+        }
+
+        if (!profile.emails || !profile.emails[0] || !profile.emails[0].value) {
+          return done(new Error('Email not provided by Google'), null);
+        }
+
+        const email = profile.emails[0].value.toLowerCase().trim();
+        const googleId = profile.id;
+        const displayName = profile.displayName || profile.name?.givenName || 'User';
+
         // Check if user already exists with this Google ID
-        let user = await User.findOne({ googleId: profile.id });
+        let user = await User.findOne({ googleId });
 
         if (user) {
+          // Update user info if needed
+          if (!user.isEmailVerified) {
+            user.isEmailVerified = true;
+            await user.save();
+          }
           return done(null, user);
         }
 
         // Check if user exists with this email
-        user = await User.findOne({ email: profile.emails[0].value });
+        user = await User.findOne({ email });
 
         if (user) {
-          // Link Google account to existing user
-          user.googleId = profile.id;
-          user.isGoogleUser = true;
-          user.isEmailVerified = true; // Google emails are already verified
-          await user.save();
+          // Link Google account to existing user if not already linked
+          if (!user.googleId) {
+            user.googleId = googleId;
+            user.isGoogleUser = true;
+            user.isEmailVerified = true; // Google emails are already verified
+            await user.save();
+          }
           return done(null, user);
         }
 
         // Create new user
         user = new User({
-          name: profile.displayName,
-          email: profile.emails[0].value,
-          googleId: profile.id,
+          name: displayName,
+          email: email,
+          googleId: googleId,
           isGoogleUser: true,
           isEmailVerified: true, // Google emails are already verified
-          password: '', // No password for Google users
-          phone: profile.phoneNumbers?.[0]?.value || '0000000000',
+          phone: profile.phoneNumbers?.[0]?.value || '', // Optional for Google users
           role: 'user', // Default role
         });
 
         await user.save();
+        console.log('New Google user created:', user.email);
         return done(null, user);
       } catch (error) {
+        console.error('Google OAuth strategy error:', error);
         return done(error, null);
       }
     }

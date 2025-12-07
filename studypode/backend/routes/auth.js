@@ -10,29 +10,59 @@ router.post('/register', async (req, res) => {
   try {
     const { name, email, password, phone, role } = req.body;
 
+    // Validation
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: 'Name, email, and password are required' });
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: 'Invalid email format' });
+    }
+
+    // Password validation
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+    }
+
     // Check if user exists
-    let user = await User.findOne({ email });
+    const normalizedEmail = email.toLowerCase().trim();
+    let user = await User.findOne({ email: normalizedEmail });
+    
     if (user) {
-      return res.status(400).json({ message: 'User already exists' });
+      // Check if user is a Google user trying to register with email
+      if (user.isGoogleUser) {
+        return res.status(400).json({ 
+          message: 'This email is already registered with Google. Please use Google login.' 
+        });
+      }
+      return res.status(400).json({ message: 'User already exists with this email' });
     }
 
     // Generate verification token
     const verificationToken = generateVerificationToken();
     
     user = new User({
-      name,
-      email,
-      password,
-      phone,
+      name: name.trim(),
+      email: normalizedEmail,
+      password, // Will be hashed by pre-save hook
+      phone: phone || '',
       role: role || 'user',
       emailVerificationToken: verificationToken,
       emailVerificationExpires: getVerificationExpiry(),
+      isGoogleUser: false,
+      isEmailVerified: false,
     });
 
     await user.save();
 
     // Send verification email
-    await sendVerificationEmail(user.email, user.name, verificationToken);
+    const emailSent = await sendVerificationEmail(user.email, user.name, verificationToken);
+    
+    if (!emailSent) {
+      console.warn('Failed to send verification email, but user was created');
+    }
 
     const token = jwt.sign(
       { userId: user._id },
@@ -52,7 +82,14 @@ router.post('/register', async (req, res) => {
       message: 'Registration successful! Please check your email to verify your account.',
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Registration error:', error);
+    
+    // Handle duplicate key error
+    if (error.code === 11000) {
+      return res.status(400).json({ message: 'User already exists with this email' });
+    }
+    
+    res.status(500).json({ message: error.message || 'Registration failed. Please try again.' });
   }
 });
 
@@ -61,8 +98,27 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    // Validation
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
+    const user = await User.findOne({ email: normalizedEmail });
+    
     if (!user) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+
+    // Check if user is a Google-only user
+    if (user.isGoogleUser && (!user.password || user.password === '')) {
+      return res.status(400).json({ 
+        message: 'This account was created with Google. Please use Google login.' 
+      });
+    }
+
+    // Check if user has a password
+    if (!user.password) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
@@ -84,10 +140,12 @@ router.post('/login', async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        isEmailVerified: user.isEmailVerified,
       },
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Login error:', error);
+    res.status(500).json({ message: error.message || 'Login failed. Please try again.' });
   }
 });
 

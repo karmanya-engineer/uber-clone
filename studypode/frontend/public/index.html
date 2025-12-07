@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Uber Clone - Complete ride-sharing application">
+    <title>Uber Clone - Ride Sharing Made Easy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+        }
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .btn-primary {
+            background: #000000;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: #333333;
+            transform: scale(1.05);
+        }
+        .btn-secondary {
+            background: #00D9A5;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: #00b894;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-black text-white p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-car text-2xl text-green-500"></i>
+                <h1 class="text-2xl font-bold">Uber Clone</h1>
+            </div>
+            <div class="space-x-4">
+                <a href="login.html" class="px-4 py-2 rounded hover:bg-gray-800 transition">Login</a>
+                <a href="login.html" class="px-4 py-2 bg-green-500 rounded hover:bg-green-600 transition">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-20 px-4">
+        <div class="container mx-auto text-center">
+            <h2 class="text-5xl font-bold mb-4">Ride Sharing Made Simple</h2>
+            <p class="text-xl mb-8 text-gray-300">Book a ride in seconds. Drive and earn. Join thousands of happy users.</p>
+            <div class="space-x-4">
+                <a href="login.html" class="btn-primary text-white px-8 py-3 rounded-lg font-semibold inline-block">
+                    <i class="fas fa-user mr-2"></i>Get Started as Passenger
+                </a>
+                <a href="login.html?role=driver" class="btn-secondary text-white px-8 py-3 rounded-lg font-semibold inline-block">
+                    <i class="fas fa-car mr-2"></i>Become a Driver
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 px-4 bg-white">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12">Why Choose Uber Clone?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="feature-card bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-map-marker-alt text-4xl text-green-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Easy Booking</h3>
+                        <p class="text-gray-600">Book rides with just a few taps. Our intuitive interface makes it simple to get where you need to go.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-clock text-4xl text-blue-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Real-Time Tracking</h3>
+                        <p class="text-gray-600">Track your driver's location in real-time. Know exactly when they'll arrive at your pickup point.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-dollar-sign text-4xl text-green-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Fair Pricing</h3>
+                        <p class="text-gray-600">Transparent pricing with automatic fare calculation based on distance and time. No hidden fees.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-shield-alt text-4xl text-blue-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Safe & Secure</h3>
+                        <p class="text-gray-600">Your safety is our priority. All drivers are verified and rides are tracked for your peace of mind.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="feature-card bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-money-bill-wave text-4xl text-green-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Earn as Driver</h3>
+                        <p class="text-gray-600">Become a driver and start earning money on your own schedule. Set your availability and work when you want.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="feature-card bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-mobile-alt text-4xl text-blue-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Modern Technology</h3>
+                        <p class="text-gray-600">Built with the latest web technologies. Fast, responsive, and works seamlessly on all devices.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-16 px-4 bg-gray-100">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="bg-black text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
+                    <h3 class="text-xl font-bold mb-2">Sign Up</h3>
+                    <p class="text-gray-600">Create your account as a passenger or driver in seconds.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-black text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
+                    <h3 class="text-xl font-bold mb-2">Book/Accept</h3>
+                    <p class="text-gray-600">Passengers book rides, drivers accept requests instantly.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-black text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
+                    <h3 class="text-xl font-bold mb-2">Track & Ride</h3>
+                    <p class="text-gray-600">Real-time tracking shows driver location and estimated arrival.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-black text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">4</div>
+                    <h3 class="text-xl font-bold mb-2">Arrive & Pay</h3>
+                    <p class="text-gray-600">Complete your ride and pay securely through the app.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 px-4 bg-black text-white">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-4">Ready to Get Started?</h2>
+            <p class="text-xl mb-8 text-gray-300">Join thousands of users already enjoying our ride-sharing platform.</p>
+            <a href="login.html" class="bg-green-500 text-white px-8 py-3 rounded-lg font-semibold inline-block hover:bg-green-600 transition">
+                Get Started Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 px-4">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Uber Clone</h3>
+                    <p class="text-gray-400">Your trusted ride-sharing platform. Simple, safe, and reliable.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">For Passengers</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="login.html" class="hover:text-white">Book a Ride</a></li>
+                        <li><a href="#" class="hover:text-white">How It Works</a></li>
+                        <li><a href="#" class="hover:text-white">Safety</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">For Drivers</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="login.html?role=driver" class="hover:text-white">Become a Driver</a></li>
+                        <li><a href="#" class="hover:text-white">Earnings</a></li>
+                        <li><a href="#" class="hover:text-white">Driver Resources</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Uber Clone. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple redirect for driver signup
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('role') === 'driver') {
+            // Could redirect to driver signup if needed
+        }
+    </script>
+</body>
+</html>
